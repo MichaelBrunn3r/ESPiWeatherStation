@@ -18,11 +18,6 @@ Select containers:
 Start/Build stack:
 - `sudo docker-compose up -d`
 
-## Portainer
-- Connect to your portainer instance `<PI-IP-ADDRESS>:9000`
-- Create new user
-- Select *Docker* and connect to your docker agent
-
 # Other tips
 
 ## Disable swap (if available) for better SD-Card life
