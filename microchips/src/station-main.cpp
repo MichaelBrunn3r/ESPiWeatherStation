@@ -67,12 +67,10 @@ double readBatteryVoltage() {
 
 void sendMeasurement() {
   MeasurementPacket mp;
-  mp.temp = bme.readTemperature();
+  mp.temp = bme.readTemperature() + BME280_TEMP_OFFSET;
   mp.hum = bme.readHumidity();
   mp.press = bme.readPressure() / 100.0F;
   mp.batv = readBatteryVoltage();
-
-  LOG(bme.readTemperature() + BME280_TEMP_OFFSET);
 
   esp_now_send(receiverAddress, (uint8_t *) &mp, sizeof(mp));
 }
