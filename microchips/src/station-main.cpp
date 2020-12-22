@@ -11,12 +11,26 @@
 Adafruit_BME280 bme;
 uint8_t receiverAddress[] = RECEIVER_MAC;   // please update this with the MAC address of the receiver
 
+void deepSleep(uint64_t duration) {
+  LOGF("Deep sleep for %f seconds.", duration/1000000.0);
+
+  // Turn off WiFi
+  WiFi.mode(WIFI_OFF);
+  WiFi.forceSleepBegin(duration+1);
+  delay(1);
+
+  // Sleep
+  ESP.deepSleep(duration);
+}
+
 void onTransmissionComplete(uint8_t *receiver_mac, uint8_t transmissionStatus) {
   if(transmissionStatus == 0) {
 	  LOG("Data sent successfully");
   } else {
     LOGF("Couldn't send data. Error Code: %d\n", transmissionStatus);
   }
+  delay(10);
+  deepSleep(SLEEP_DURATION);
 }
 
 bool init_bme() {
@@ -69,11 +83,11 @@ void setup() {
 
   initESPNOW();
   if(init_bme()) {
-
+    sendMeasurement();
+  } else {
+    delay(10);
+    deepSleep(SLEEP_DURATION);
   }
 }
 
-void loop() {
-  sendMeasurement();
-  delay(3000);
-}
+void loop() {}
