@@ -3,7 +3,7 @@
 #include <espnow.h>
 
 #include <common.h>
-#define LOGGING
+// #define LOGGING
 #include <log_utils.h>
 
 struct __attribute__((packed)) dataPacket {
@@ -38,7 +38,7 @@ void initESPNOW() {
 }
 
 void setup() {
-	Serial.begin(115200);
+	Serial.begin(SERIAL_BAUD);
 	initESPNOW();
 }
 
