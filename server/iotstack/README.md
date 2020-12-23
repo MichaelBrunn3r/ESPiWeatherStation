@@ -7,23 +7,33 @@
 - Install docker
 - `sudo ./menu.sh --run-env-setup`
 
-## Build stack
+# Create stack
 Select containers:
+  - Heimdall
+    - Fix env file: `mkdir services/heimdall && touch services/heimdall/heimdall.env`
   - Grafana
   - InfluxDB
   - Node-RED
     - Build addon list
+  - (Eclipse) Mosquitto
 
 Start/Build stack:
 - `sudo docker-compose up -d`
 
-## Setup grafana
+# Configure containers
+
+## Grafana
 - Connect to `<pi-ip>:3000`
 - Login: usr `admin`, pwd `admin`
 
-## Setup nodered
+## NodeRed
 - Connect to `<pi-ip>:1880`
 
+## Heimdall
+- Change ports to `80` and `443`
+- Add links to local apps:
+    - e.g. `http://<pi-ip>:3000`
+    - Tip: Some routers can act as a local DNS: e.g. `<pi-hostname>.fritz.box:3000`
 
 # Other tips
 
