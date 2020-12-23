@@ -26,6 +26,8 @@ Now, after inserting the SD Card and booting, we can setup the Pi via SSH.
 - Enter the command `passwd` and follow the steps
 
 ## Install software
+All recommended in one cmd:
+- `sudo apt update && sudo apt upgrade -y && sudo apt install git tmux python3-pip curl neovim -y`
 
 Essential:
 - Update packages: `sudo apt update && sudo apt upgrade -y`
@@ -35,8 +37,12 @@ Optional:
 - `tmux`
 - `vim` or `neovim`
 
-All recommended in one cmd:
-- `sudo apt update && sudo apt upgrade -y && sudo apt install git tmux python3-pip curl neovim -y`
+# ESP8266 01 Connection
+## Enable RX/TX serial port connection
+- `sudo raspi-config`
+- *Interface options* > *Serial port*
+- *'Enable serial login shell?'* **NO**
+- *'Enable serial port hardware?'* **YES**
 
 # Other tips and tricks
 
