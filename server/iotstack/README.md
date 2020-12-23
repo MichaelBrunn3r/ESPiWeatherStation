@@ -1,9 +1,8 @@
 # Setup IOTStack
 
 ## Install IOTStack
--  Add user to 'docker' group: `sudo usermod -aG docker <user>`
-- `cd ~ && git clone https://github.com/SensorsIot/IOTstack.git IOTstack && cd ~/IOTstack`
-- `sudo ./menu.sh`
+- `curl -fsSL https://raw.githubusercontent.com/SensorsIot/IOTstack/master/install.sh | bash`
+- `sudo ./menu.sh --run-env-setup`
 - Install any require dependecies
 - Install docker
 - `sudo ./menu.sh --run-env-setup`
@@ -17,6 +16,14 @@ Select containers:
 
 Start/Build stack:
 - `sudo docker-compose up -d`
+
+## Setup grafana
+- Connect to `<pi-ip>:3000`
+- Login: usr `admin`, pwd `admin`
+
+## Setup nodered
+- Connect to `<pi-ip>:1880`
+
 
 # Other tips
 
