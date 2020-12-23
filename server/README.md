@@ -1,1 +1,2 @@
 - [Install and setup Raspberry Pi OS on the Rapsberry Pi Zero W](./os/README.md)
+- [Install IOTstack](./iotstack/README.md)

@@ -22,6 +22,13 @@ Start/Build stack:
 
 # Configure containers
 
+## InfluxDB
+Create database:
+- Enter container shell: `docker exec -it influxdb bash`
+- `influx`
+- `CREATE DATABASE Weather`
+- `USE Weather`
+
 ## Grafana
 - Connect to `<pi-ip>:3000`
 - Login: usr `admin`, pwd `admin`
