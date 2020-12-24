@@ -22,19 +22,11 @@ Start/Build stack:
 
 # Configure containers
 
-## InfluxDB
-Create database:
-- Enter container shell: `docker exec -it influxdb bash`
-- `influx`
-- `CREATE DATABASE Weather`
-- `USE Weather`
+## [InfluxDB](./influxdb.md)
 
-## Grafana
-- Connect to `<pi-ip>:3000`
-- Login: usr `admin`, pwd `admin`
+## [Grafana](./grafana/README.md)
 
-## NodeRed
-- Connect to `<pi-ip>:1880`
+## [NodeRed](./nodered/README.md)
 
 ## Heimdall
 - Change ports to `80` and `443`
