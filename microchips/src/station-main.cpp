@@ -5,7 +5,7 @@
 #include <Adafruit_BME280.h>
 
 #include <common.h>
-#define LOGGING
+// #define LOGGING
 #include <log_utils.h>
 
 Adafruit_BME280 bme;

@@ -21,7 +21,7 @@ void onDataReceived(uint8_t* senderMac, uint8_t* data, uint8_t dataLen) {
 	LOGF("Received data from: %s", macStr);
 	memcpy(&packet, data, sizeof(packet));
 
-	Serial.printf("{\"T\":%f,\"H\":%f,\"P\":%f,\"B\":%f}\n", packet.temp, packet.hum, packet.press, packet.batv);
+	Serial.printf("{\"Mac\":\"%s\",\"Temp\":%f,\"Hum\":%f,\"Press\":%f,\"BatV\":%f}\n", macStr, packet.temp, packet.hum, packet.press, packet.batv);
 }
 
 void initESPNOW() {
