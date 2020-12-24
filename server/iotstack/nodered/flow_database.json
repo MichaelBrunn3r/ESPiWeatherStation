@@ -1,0 +1,75 @@
+[
+    {
+        "id": "c7f5e9a1.d21808",
+        "type": "tab",
+        "label": "Database",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "cf474288.fdd14",
+        "type": "link in",
+        "z": "c7f5e9a1.d21808",
+        "name": "",
+        "links": [
+            "a817eee.a537a1"
+        ],
+        "x": 75,
+        "y": 100,
+        "wires": [
+            [
+                "b133b33d.1d0e78"
+            ]
+        ]
+    },
+    {
+        "id": "b133b33d.1d0e78",
+        "type": "function",
+        "z": "c7f5e9a1.d21808",
+        "name": "Create row",
+        "func": "msg.payload = {\n    mac: msg.payload.Mac,\n    temp: msg.payload.Temp,\n    hum: msg.payload.Hum,\n    press: msg.payload.Press,\n    batv: msg.payload.BatV\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 210,
+        "y": 100,
+        "wires": [
+            [
+                "f516c949.b70ae"
+            ]
+        ]
+    },
+    {
+        "id": "f516c949.b70ae",
+        "type": "influxdb out",
+        "z": "c7f5e9a1.d21808",
+        "influxdb": "75ce2e37.f1061",
+        "name": "Insert measurement",
+        "measurement": "stations",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 420,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "75ce2e37.f1061",
+        "type": "influxdb",
+        "hostname": "<hostname>",
+        "port": "8086",
+        "protocol": "http",
+        "database": "Weather",
+        "name": "Weather",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    }
+]
