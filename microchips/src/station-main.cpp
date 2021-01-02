@@ -11,6 +11,14 @@
 // #define LOGGING
 #include <log_utils.h>
 
+// Settings
+#define SLEEP_DURATION     5e6
+#define BME280_IC2_ADDR	0x76									// The IC2 Address of the BME280 sensor
+#define BME280_TEMP_OFFSET -3.0
+#define BAT_ADC_RES     1024 									// Resolution of the Analog pin reading the battery level
+#define BAT_MAX_V 		4.2f									// Maximum Battery Voltage
+#define BAT_PIN			A0
+
 Adafruit_BME280 bme;
 uint8_t receiverAddress[] = RECEIVER_MAC;   // please update this with the MAC address of the receiver
 
