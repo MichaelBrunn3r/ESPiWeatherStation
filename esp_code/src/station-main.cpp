@@ -11,13 +11,20 @@
 // #define LOGGING
 #include <log_utils.h>
 
+// Individual sensor adjustments
+#define BAT_MAX_V 		4.15f									// Maximum Battery Voltage
+#define BME280_TEMP_COMPENSATION -1
+
 // Settings
-#define SLEEP_DURATION     5e6
+#define SLEEP_DURATION     300e6
 #define BME280_IC2_ADDR	0x76									// The IC2 Address of the BME280 sensor
-#define BME280_TEMP_OFFSET -3.0
 #define BAT_ADC_RES     1024 									// Resolution of the Analog pin reading the battery level
-#define BAT_MAX_V 		4.2f									// Maximum Battery Voltage
 #define BAT_PIN			A0
+
+// Utils
+#define CELSIUS_TO_KELVIN(c) c+273.15
+#define Pa_to_hPa(p) p/100.0
+#define SEALEVEL_PRESSURE 1013.25
 
 Adafruit_BME280 bme;
 uint8_t receiverAddress[] = RECEIVER_MAC;   // please update this with the MAC address of the receiver
@@ -30,6 +37,9 @@ uint8_t receiverAddress[] = RECEIVER_MAC;   // please update this with the MAC a
  **/
 void deepSleep(uint64_t duration_us) {
   LOGF("Deep sleep for %f seconds.", duration_us/1000000.0);
+
+  // Put BME280 Sensor into sleep mode
+  bme.setSampling(Adafruit_BME280::MODE_SLEEP);
 
   // Turn off WiFi
   WiFi.mode(WIFI_OFF);
@@ -52,6 +62,7 @@ void onTransmissionComplete(uint8_t *receiver_mac, uint8_t transmissionStatus) {
   } else {
     LOGF("Couldn't send data. Error Code: %d.\n", transmissionStatus);
   }
+  LOG(millis());
   delay(10);
   deepSleep(SLEEP_DURATION);
 }
@@ -66,6 +77,12 @@ bool initBME() {
     LOG("Could not find BME280 sensor.");
     return false;
   }
+
+  // Adjust temperature reading. Helps for better humidity and pressure readings.
+  bme.setTemperatureCompensation(BME280_TEMP_COMPENSATION);
+  // Set the BME280 into Forced mode (@see datasheet chapter 3.5 'Recommended modes of operation').
+  bme.setSampling(Adafruit_BME280::MODE_FORCED, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::FILTER_OFF);
+
   return true;
 }
 
@@ -94,7 +111,7 @@ bool initESPNOW() {
  *
  * @returns The current battery voltage
  **/
-double readBatteryVoltage() {
+float readBatteryVoltage() {
   float measurement = (float)analogRead(BAT_PIN);
   float voltage = measurement/(BAT_ADC_RES) * BAT_MAX_V;
   return voltage;
@@ -104,11 +121,14 @@ double readBatteryVoltage() {
  * Send a weather measurement to the current ESP-Now peer
  **/
 void sendMeasurement() {
+  // Let the BME280 take one measurement.
+  bme.takeForcedMeasurement();
+
   // Create measurement packet
   MeasurementPacket mp;
-  mp.temp = bme.readTemperature() + BME280_TEMP_OFFSET;
+  mp.temp = bme.readTemperature();
   mp.hum = bme.readHumidity();
-  mp.press = bme.readPressure() / 100.0F;
+  mp.press = Pa_to_hPa(bme.readPressure());
   mp.batv = readBatteryVoltage();
 
   // Send measurement packet
@@ -116,7 +136,10 @@ void sendMeasurement() {
 }
 
 void setup() {
-  // Serial.begin(SERIAL_BAUD);
+  #ifdef LOGGING
+  Serial.begin(SERIAL_BAUD);
+  #endif
+
   pinMode(BAT_PIN, INPUT);
 
   if(initESPNOW() && initBME()) {
