@@ -8,6 +8,7 @@
 #define ESP_NOW_SEND_FAILED 1
 
 #include <common.h>
+#include <secrets.h>
 // #define LOGGING
 #include <log_utils.h>
 
@@ -27,7 +28,7 @@
 #define SEALEVEL_PRESSURE 1013.25
 
 Adafruit_BME280 bme;
-uint8_t receiverAddress[] = RECEIVER_MAC;   // please update this with the MAC address of the receiver
+uint8_t receiverAddress[] = RECEIVER_MAC;   // update this with the MAC address of the receiver
 
 /**
  * Enter deep sleep mode and wake up after some duration.

@@ -3,6 +3,7 @@
 #include <espnow.h>
 
 #include <common.h>
+#include <secrets.h>
 // #define LOGGING
 #include <log_utils.h>
 
