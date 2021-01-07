@@ -18,10 +18,11 @@ A small weather station built with 2 ESP8266 and a Rasberry Pi server.
 ## Assemble the Weather Station
 Use the [station schematic](./schematics/station.pdf) to assemble the Weather station. Here is how it could look like:
 
-<img src="./img/station_top.jpg" width="400"/>
-<img src="./img/station_bottom.jpg" width="400"/>
-<img src="./img/station_assembled.jpg" width="400"/>
-
+<dev>
+	<img src="./img/station_top.jpg" width="300"/>
+	<img src="./img/station_bottom.jpg" width="300"/>
+	<img src="./img/station_assembled.jpg" width="300"/>
+</dev>
 
 ## Assemble the server / receiver
 Connect the ESP 01 to the Raspberry Pi:<br>
