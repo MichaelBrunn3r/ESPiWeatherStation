@@ -1,2 +1,5 @@
 - [Install and setup Raspberry Pi OS on the Rapsberry Pi Zero W](./os/README.md)
 - [Install IOTstack](./iotstack/README.md)
+- [Configure InfluxDB](./influxdb.md)
+- [Configure Grafana](./grafana/README.md)
+- [Configure NodeRed](./nodered/README.md)
