@@ -14,12 +14,11 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 370,
-        "y": 180,
+        "x": 270,
+        "y": 220,
         "wires": [
             [
-                "a817eee.a537a1",
-                "8ee8886.16e6578"
+                "2d2f07c2.f1951"
             ]
         ]
     },
@@ -30,36 +29,7 @@
         "name": "",
         "serial": "39690c47.535b64",
         "x": 100,
-        "y": 180,
-        "wires": [
-            [
-                "e81610b4.416a2"
-            ]
-        ]
-    },
-    {
-        "id": "8bc8c6d7.344ec8",
-        "type": "inject",
-        "z": "70c5ec59.09af94",
-        "name": "Dummy Measurement",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"Mac\":\"dummy\", \"Temp\":22, \"Hum\":73, \"Press\":1000, \"BatV\":3.3}",
-        "payloadType": "str",
-        "x": 160,
-        "y": 140,
+        "y": 220,
         "wires": [
             [
                 "e81610b4.416a2"
@@ -75,25 +45,27 @@
             "376ace8f.a2ebca",
             "cf474288.fdd14"
         ],
-        "x": 455,
-        "y": 180,
+        "x": 655,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "8ee8886.16e6578",
-        "type": "debug",
+        "id": "2d2f07c2.f1951",
+        "type": "function",
         "z": "70c5ec59.09af94",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 510,
+        "name": "Convert to barometric pressure",
+        "func": "let elevation = global.get('elevation');\nlet p = msg.payload.Press;\n\n// See page 17 http://www.adafruit.com/datasheets/BST-BMP180-DS000-09.pdf\nmsg.payload.Press = p / Math.pow(1-(elevation/44330), 5.255);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 470,
         "y": 220,
-        "wires": []
+        "wires": [
+            [
+                "a817eee.a537a1"
+            ]
+        ]
     },
     {
         "id": "39690c47.535b64",

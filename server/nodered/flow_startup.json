@@ -1,0 +1,140 @@
+[
+	{
+	   "id":"86d8aa9.b433458",
+	   "type":"tab",
+	   "label":"Startup",
+	   "disabled":false,
+	   "info":""
+	},
+	{
+	   "id":"e0b556d1.32d36",
+	   "type":"function",
+	   "z":"86d8aa9.b433458",
+	   "name":"Store location in 'location'",
+	   "func":"global.set('location', msg.payload);\nreturn {};",
+	   "outputs":1,
+	   "noerr":0,
+	   "initialize":"",
+	   "finalize":"",
+	   "x":690,
+	   "y":60,
+	   "wires":[
+		  [
+			 "4b9e75bd.84c9bc"
+		  ]
+	   ]
+	},
+	{
+	   "id":"9aac299e.a6f83",
+	   "type":"inject",
+	   "z":"86d8aa9.b433458",
+	   "name":"On start",
+	   "props":[
+
+	   ],
+	   "repeat":"",
+	   "crontab":"",
+	   "once":true,
+	   "onceDelay":"0",
+	   "topic":"",
+	   "payloadType":"str",
+	   "x":100,
+	   "y":60,
+	   "wires":[
+		  [
+			 "57160b23.84e90c"
+		  ]
+	   ]
+	},
+	{
+	   "id":"4b9e75bd.84c9bc",
+	   "type":"function",
+	   "z":"86d8aa9.b433458",
+	   "name":"Create elevation request",
+	   "func":"let loc = global.get('location').ll;\nlet lat = loc[0];\nlet lon = loc[1];\n\nlet request = 'https://api.opentopodata.org/v1/eudem25m?locations='+lat+','+lon;\n\nmsg.url = request;\nreturn msg;",
+	   "outputs":1,
+	   "noerr":0,
+	   "initialize":"",
+	   "finalize":"",
+	   "x":150,
+	   "y":120,
+	   "wires":[
+		  [
+			 "d15db5e1.42f81"
+		  ]
+	   ]
+	},
+	{
+	   "id":"d15db5e1.42f81",
+	   "type":"http request",
+	   "z":"86d8aa9.b433458",
+	   "name":"",
+	   "method":"GET",
+	   "ret":"obj",
+	   "paytoqs":"ignore",
+	   "url":"",
+	   "tls":"",
+	   "persist":false,
+	   "proxy":"",
+	   "authType":"",
+	   "x":370,
+	   "y":120,
+	   "wires":[
+		  [
+			 "84ba72e4.601f"
+		  ]
+	   ]
+	},
+	{
+	   "id":"84ba72e4.601f",
+	   "type":"function",
+	   "z":"86d8aa9.b433458",
+	   "name":"Store elevation in 'elevation'",
+	   "func":"let elevation = msg.payload.results[0].elevation;\nglobal.set('elevation', elevation);\n\nmsg.payload = elevation;\nreturn msg;",
+	   "outputs":1,
+	   "noerr":0,
+	   "initialize":"",
+	   "finalize":"",
+	   "x":680,
+	   "y":120,
+	   "wires":[
+		  [
+
+		  ]
+	   ]
+	},
+	{
+	   "id":"57160b23.84e90c",
+	   "type":"ip",
+	   "z":"86d8aa9.b433458",
+	   "name":"Get public ip",
+	   "https":false,
+	   "timeout":"5000",
+	   "internalIPv4":false,
+	   "internalIPv6":false,
+	   "publicIPv4":true,
+	   "publicIPv6":false,
+	   "x":250,
+	   "y":60,
+	   "wires":[
+		  [
+			 "d0b1797b.4aa6d8"
+		  ]
+	   ]
+	},
+	{
+	   "id":"d0b1797b.4aa6d8",
+	   "type":"ip-location-lite",
+	   "z":"86d8aa9.b433458",
+	   "name":"Get ip location",
+	   "inputField":"payload.publicIPv4",
+	   "outputField":"payload",
+	   "x":440,
+	   "y":60,
+	   "wires":[
+		  [
+			 "e0b556d1.32d36"
+		  ]
+	   ]
+	}
+ ]
