@@ -4,4 +4,4 @@
 ## Add databse as data source
 - Basic auth
 - User: `pi`, Password: `<password>`
-- Url: <pi-ip-address>:8086, e.g. 'pi.fritz.box:8086'
+- Url: <pi-ip-address>:8086
